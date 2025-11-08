@@ -1,0 +1,59 @@
+# Smart Waste Classifier - Configuration File
+
+# Dataset Configuration
+dataset:
+  path: "dataset"
+  image_size: [224, 224]
+  batch_size: 32
+  validation_split: 0.2
+  seed: 42
+
+# Data Augmentation
+augmentation:
+  rotation_range: 20
+  width_shift_range: 0.2
+  height_shift_range: 0.2
+  shear_range: 0.2
+  zoom_range: 0.2
+  horizontal_flip: true
+  brightness_range: [0.8, 1.2]
+  fill_mode: "nearest"
+
+# Model Configuration
+model:
+  base_model: "MobileNetV2"
+  input_shape: [224, 224, 3]
+  num_classes: 3
+  dropout_rate: 0.3
+  dense_units: 256
+  fine_tune_layers: 30  # Number of top layers to unfreeze for fine-tuning
+  fine_tune_enabled: false  # Set to true to enable fine-tuning
+
+# Training Configuration
+training:
+  epochs: 50
+  initial_epochs: 10  # Epochs before fine-tuning (if enabled)
+  learning_rate: 0.001
+  fine_tune_learning_rate: 0.0001
+  early_stopping:
+    monitor: "val_loss"
+    patience: 10
+    restore_best_weights: true
+  reduce_lr:
+    monitor: "val_loss"
+    factor: 0.5
+    patience: 5
+    min_lr: 0.00001
+
+# Paths
+paths:
+  model_dir: "model"
+  model_name: "waste_classifier.h5"
+  outputs_dir: "outputs"
+  class_indices: "model/class_indices.json"
+
+# Logging
+logging:
+  level: "INFO"
+  save_training_history: true
+
